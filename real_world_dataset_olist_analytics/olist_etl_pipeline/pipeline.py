@@ -92,7 +92,7 @@ def build_summaries(data_dir: Path = DATA_DIR) -> dict[str, pd.DataFrame]:
     }
 
 
-def main() -> None:
+def get_database_url() -> URL:
     load_dotenv(PIPELINE_DIR.parent / ".env")
     project_ref = os.getenv("SUPABASE_PROJECT_REF") or os.getenv("SUPABASE_PROJECT_NAME")
     password = os.getenv("SUPABASE_PASSWORD")
@@ -120,7 +120,11 @@ def main() -> None:
         url = make_url(connection_string)
         if url.drivername in {"postgres", "postgresql"}:
             url = url.set(drivername="postgresql+psycopg")
+    return url
 
+
+def main() -> None:
+    url = get_database_url()
     summaries = build_summaries()
     with create_engine(url).begin() as connection:
         connection.execute(text("CREATE SCHEMA IF NOT EXISTS analytics"))

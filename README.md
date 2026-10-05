@@ -1,6 +1,7 @@
 # Olist Supabase ETL
 
 # Dataset Details
+
 This project uses Olist's publicly available CSV datasets (Brazilian E-Commerce Public Dataset by Olist). Accessible through [https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce].
 
 This Python script reads the Olist CSVs, calculates four useful summaries, and replaces those tables in Supabase PostgreSQL using an ETL pipeline:
@@ -25,7 +26,7 @@ pip install -r requirements.txt
 From the repository root:
 
 ```powershell
-python real_world_dataset_olist_analytics/olist_elt_pipeline/pipeline.py
+python real_world_dataset_olist_analytics/olist_etl_pipeline/pipeline.py
 ```
 
 The script reads CSVs from the sibling `olist_data` folder. Each run replaces only the four tables listed above in the `analytics` schema. Query them in the Supabase SQL editor, for example:
@@ -35,3 +36,13 @@ SELECT *
 FROM analytics.monthly_sales
 ORDER BY sales_month;
 ```
+
+## Flask JSON API
+
+Run the ETL first so the analytics tables exist, then start the API from the repository root:
+
+```powershell
+python real_world_dataset_olist_analytics/olist_etl_pipeline/flask_api.py
+```
+
+The API reads the four `analytics` tables from the same database connection configured for the ETL. Open `http://127.0.0.1:5000/` for the route list, or request `/api/analytics/monthly_sales`, `/api/analytics/category_sales`, `/api/analytics/payment_summary`, or `/api/analytics/review_summary`. Results are JSON; an optional `?limit=100` parameter limits rows (maximum 5000).
