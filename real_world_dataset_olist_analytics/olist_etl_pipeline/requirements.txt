@@ -3,3 +3,7 @@ python-dotenv>=1.0,<2
 pandas>=2.2,<4
 SQLAlchemy>=2,<3
 Flask>=3,<4
+matplotlib>=3.9,<4
+scikit-learn>=1.4,<2
+shap>=0.45,<1
+xgboost>=2,<4

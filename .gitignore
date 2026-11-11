@@ -5,3 +5,4 @@ __pycache__/
 !.env.example
 /practice_with_sample_dataset
 olist_data
+model_outputs/
